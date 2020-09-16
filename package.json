@@ -1,4 +1,33 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "Get markdown links",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulalenisb/bog001-md-links.git"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "markdown",
+    "jest"
+  ],
+  "author": "Paula Lenis B",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paulalenisb/bog001-md-links/issues"
+  },
+  "homepage": "https://github.com/paulalenisb/bog001-md-links#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "eslint": "^7.9.0",
+    "jest": "^26.4.2"
+  }
 }
