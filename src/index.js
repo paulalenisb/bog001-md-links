@@ -55,9 +55,7 @@ const findMdLinks = (userPath) => {
         console.log(arrMdLinks);
       };
     });
-
   })
-
 }
 
 findMdLinks(userPath)
