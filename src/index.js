@@ -13,24 +13,6 @@ const userPath ="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-m
 // const mdLinks = (userPath, options ) => {
 
 //   };
-// const fileExists = (userPath) => {
-//   try {
-//     fs.statSync(userPath);
-//     return true;
-//   } catch (err) {
-//     if (err.code === "ENOENT") {
-//       return false;
-//     }
-//   }
-// };
-// fileExists(userPath);
-
-// const isFile = (userPath) => {
-//   const isFile = fs.lstatSync(userPath).isFile();
-//   return isFile;
-// };
-
-// isFile(userPath);
 
 //resolves a sequence of paths or path segments into an absolute path
 const absolutePath = path.resolve(userPath);
@@ -79,10 +61,10 @@ const findMdLinks = (userPath) => {
   });
 };
 
-findMdLinks(userPath)
-.then((arrMdLinks) => {
-console.log(arrMdLinks);
-})
+// findMdLinks(userPath)
+// .then((arrMdLinks) => {
+// console.log(arrMdLinks);
+// })
 
 
 
@@ -127,12 +109,16 @@ const arrMockLinks = [
     userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
   },
   {
+    href: 'https://github.com/arielatolosasilva/SCL013-md-links',
+    text: 'Proyectos de otras laboratorians',
+    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
+  },
+  {
     href: 'github.com/AleKristen/SCL013-md-links',
     text: 'Proyectos de otras laboratorians 2',
     userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
   }
 ]
-
 
 const validateMDLinks = (arrMdLinks) => {
   return new Promise ((resolve) => {
@@ -145,16 +131,16 @@ const validateMDLinks = (arrMdLinks) => {
           }
         //El metodo get
         axios.get(link.href)
-        .then(response => {
-          link.status = response.status;
+        .then(resultado => {
+          link.status = resultado.status;
           link.ok = true;
           resolve();
         }).catch (err => {
           //Error desconocido
           let status = 500;
-          if (err.response) {
+          if (err.resultado) {
             //Error predeterminado
-            status = err.response.status;
+            status = err.resultado.status;
           }
           if(err.request) {
             status = 503;
@@ -175,11 +161,62 @@ const validateMDLinks = (arrMdLinks) => {
 validateMDLinks(arrMockLinks)
 
 
-const statsMDLink = () => {
+// const validateMDLinks = (elMock) => {
+//   return new Promise ((resolve) => {
+//     const arrValidate = elMock.map((link) => {
+//       new Promise(resolve => {
+//         if (!/^https?:\/\//i.test(link.href)) {
+//           link.href = 'http://' + link.href;
+//           }
+//         //El metodo get
+//         axios.get(link.href)
+//         .then(resultado => {
+//           link.status = resultado.status;
+//           link.ok = true;
+//           resolve();
+//         }).catch (err => {
+//           //Error desconocido
+//           let status = 500;
+//           if (err.resultado) {
+//             //Error predeterminado
+//             status = err.resultado.status;
+//           }
+//           if(err.request) {
+//             status = 503;
+//           }
+//           link.status = status;
+//           link.ok = false;
+//           resolve()
+//         });
+//       });
+//     });
+//     Promise.all(arrValidate)
+//     .then((aquiLaRespuestaPromiseAll) => {
+//       return aquiLaRespuestaPromiseAll;
+//     })
+//   });
+// }
 
-}
 
 
+// const fileExists = (userPath) => {
+//   try {
+//     fs.statSync(userPath);
+//     return true;
+//   } catch (err) {
+//     if (err.code === "ENOENT") {
+//       return false;
+//     }
+//   }
+// };
+// fileExists(userPath);
+
+// const isFile = (userPath) => {
+//   const isFile = fs.lstatSync(userPath).isFile();
+//   return isFile;
+// };
+
+// isFile(userPath);
 
 // const validateMDLinks = (url, text, path) =>
 //   new Promise((resolve) =>
