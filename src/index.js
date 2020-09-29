@@ -1,11 +1,11 @@
 // module.exports = () => {
 //   // ...
 // };
+
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 const fileFound = require("filehound");
-// resuelve el path relativo
 const { resolve } = require("path");
 const { rejects } = require("assert");
 const userPath ="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
@@ -14,13 +14,18 @@ const userPath ="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-m
 
 //   };
 
+/*---------- Path Absoluto ----------*/
+
 //resolves a sequence of paths or path segments into an absolute path
 const absolutePath = path.resolve(userPath);
 console.log(absolutePath);
 
-//returns the extension of the path, from the last occurrence of the .
+/*---------- Extensión del Path ----------*/
+//Returns the extension of the path, from the last occurrence of the .
 const fileMd = path.extname(userPath);
 console.log(fileMd);
+
+/*---------- Posible Recursión (File & Dir) ----------*/
 
 // const foundMdFile = () => {
 //   fileFound
@@ -35,8 +40,10 @@ console.log(fileMd);
 // foundMdFile(userPath);
 
 
-//Convertir la función sincrona
+/*---------- Función para encontrar los links Md ----------*/
+
 const findMdLinks = (userPath) => {
+  const hashtag = ['#']
   return new Promise((res, rej) => {
     // fs.readFileSync(userPath, 'utf8', (err, data) =>
     fs.readFile(userPath, "utf8", (err, data) => {
@@ -53,77 +60,26 @@ const findMdLinks = (userPath) => {
           const arrSplit = link.split("](");
           const text = arrSplit[0].replace("[", "");
           const href = arrSplit[1].replace(")", "");
-          return { href, text, userPath };
+          return ({ href, text, userPath });
         });
-        res(arrMdLinks);
+        const getLinksUrl = arrMdLinks.filter((txt) => !txt.href.startsWith(hashtag));
+        console.log(getLinksUrl);
+        // res(arrMdLinks);
       }
     });
   });
 };
 
 // findMdLinks(userPath)
-// .then((arrMdLinks) => {
-// console.log(arrMdLinks);
+// .then((getLinksUrl) => {
+// console.log(getLinksUrl);
 // })
 
 
-
-// const getData = (url) => {
-
-//   axios.get(url).then((response) => {
-//     const status = response.status
-//     const statusTxt = response.statusText
-//     console.log(status, statusTxt);
-//   });
-// };
-
-
-
-// // // statusCode: 200,
-// // // statusMessage: 'OK'
-
-// getData('es.wikipedia.org/wiki/Markdown')
-// // // .then((arrMdLinks) => {
-// // // console.log(arrMdLinks);
-// // // })
-
-const arrMockLinks = [
-  {
-    href: '#1-prueba-link',
-    text: '1. Prueba link',
-    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
-  },
-  {
-    href: '#2-prueba-img',
-    text: '2. Prueba img',
-    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
-  },
-  {
-    href: 'user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
-    text: 'md-links',
-    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
-  },
-  {
-    href: 'https://github.com/arielatolosasilva/SCL013-md-links',
-    text: 'Proyectos de otras laboratorians',
-    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
-  },
-  {
-    href: 'https://github.com/arielatolosasilva/SCL013-md-links',
-    text: 'Proyectos de otras laboratorians',
-    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
-  },
-  {
-    href: 'github.com/AleKristen/SCL013-md-links',
-    text: 'Proyectos de otras laboratorians 2',
-    userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
-  }
-]
-
-const validateMDLinks = (arrMdLinks) => {
+const getValidateMDLinks = (getLinksUrl) => {
   return new Promise ((resolve) => {
     const arrValidate = [];
-    arrMdLinks.map((link) => {
+    getLinksUrl.map((link) => {
       //Usamos push para agregar los valores al arr
       arrValidate.push(new Promise(resolve => {
         if (!/^https?:\/\//i.test(link.href)) {
@@ -153,49 +109,32 @@ const validateMDLinks = (arrMdLinks) => {
     });
     Promise.all(arrValidate)
     .then(() => {
-      console.log(arrMdLinks);
+      console.log(getLinksUrl);
     })
   });
 }
 
-validateMDLinks(arrMockLinks)
+// getValidateMDLinks(arrMockLinks)
 
 
-// const validateMDLinks = (elMock) => {
-//   return new Promise ((resolve) => {
-//     const arrValidate = elMock.map((link) => {
-//       new Promise(resolve => {
-//         if (!/^https?:\/\//i.test(link.href)) {
-//           link.href = 'http://' + link.href;
-//           }
-//         //El metodo get
-//         axios.get(link.href)
-//         .then(resultado => {
-//           link.status = resultado.status;
-//           link.ok = true;
-//           resolve();
-//         }).catch (err => {
-//           //Error desconocido
-//           let status = 500;
-//           if (err.resultado) {
-//             //Error predeterminado
-//             status = err.resultado.status;
-//           }
-//           if(err.request) {
-//             status = 503;
-//           }
-//           link.status = status;
-//           link.ok = false;
-//           resolve()
-//         });
-//       });
-//     });
-//     Promise.all(arrValidate)
-//     .then((aquiLaRespuestaPromiseAll) => {
-//       return aquiLaRespuestaPromiseAll;
-//     })
-//   });
-// }
+const getStatsMDLinks = (arr => {
+  let flags = {};
+  let uniqueLinks = [];
+  const totalLinks = arr.length
+  for(i=0; i<total; i++) {
+      if(flags[arr[i].href])
+      continue;
+      flags[arr[i].href] = true;
+      uniqueLinks.push(arr[i].href);
+      // console.log(array.length);
+      // console.log(output.length);
+  }
+  return `
+  Total: ${totalLinks}
+  Unique: ${uniqueLinks.length}`;
+  })
+
+console.log(getStatsMDLinks(arrMockLinks));
 
 
 
