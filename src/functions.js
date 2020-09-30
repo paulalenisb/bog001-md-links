@@ -1,7 +1,7 @@
 // module.exports = () => {
 //   // ...
 // };
-
+const arrMockLinks = require('./arrMock')
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
@@ -9,6 +9,7 @@ const fileFound = require("filehound");
 const { resolve } = require("path");
 const { rejects } = require("assert");
 const userPath ="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+const functions = {};
 
 // const mdLinks = (userPath, options ) => {
 
@@ -42,7 +43,7 @@ console.log(fileMd);
 
 /*---------- Función para encontrar los links Md ----------*/
 
-const findMdLinks = (userPath) => {
+const getMdLinks = (userPath) => {
   const hashtag = ['#']
   return new Promise((res, rej) => {
     // fs.readFileSync(userPath, 'utf8', (err, data) =>
@@ -70,10 +71,10 @@ const findMdLinks = (userPath) => {
   });
 };
 
-// findMdLinks(userPath)
-// .then((getLinksUrl) => {
-// console.log(getLinksUrl);
-// })
+getMdLinks(userPath)
+.then((getLinksUrl) => {
+console.log(getLinksUrl);
+})
 
 
 const getValidateMDLinks = (getLinksUrl) => {
@@ -114,14 +115,14 @@ const getValidateMDLinks = (getLinksUrl) => {
   });
 }
 
-// getValidateMDLinks(arrMockLinks)
+getValidateMDLinks(arrMockLinks)
 
 
 const getStatsMDLinks = (arr => {
   let flags = {};
   let uniqueLinks = [];
   const totalLinks = arr.length
-  for(i=0; i<total; i++) {
+  for(let i=0; i < totalLinks; i++) {
       if(flags[arr[i].href])
       continue;
       flags[arr[i].href] = true;
@@ -135,6 +136,24 @@ const getStatsMDLinks = (arr => {
   })
 
 console.log(getStatsMDLinks(arrMockLinks));
+
+// module.exports = {
+//   userPath,
+//   absolutePath,
+//   fileMd,
+//   getMdLinks,
+//   getValidateMDLinks,
+//   getStatsMDLinks,
+// }
+
+functions.userPath = userPath;
+functions.absolutePath = absolutePath;
+functions.fileMd = fileMd;
+functions.getMdLinks = getMdLinks;
+functions.getValidateMDLinks = getValidateMDLinks;
+functions.getStatsMDLinks = getStatsMDLinks;
+
+module.exports = functions;
 
 
 

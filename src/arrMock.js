@@ -19,4 +19,6 @@ const arrMockLinks = [
     text: 'Proyectos de otras laboratorians 2',
     userPath: 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md'
   }
-]
+];
+
+module.exports = arrMockLinks;

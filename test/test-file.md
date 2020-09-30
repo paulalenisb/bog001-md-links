@@ -7,7 +7,7 @@
 
 ## 1. Prueba link
 
-[Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
+[Markdown](https://es.wikipedia.org/wiki/Markdow) es un lenguaje de marcado
 ligero muy popular entre developers. Es usado en muchísimas plataformas que
 manejan texto plano (GitHub, foros, blogs, ...), y es muy común
 encontrar varios archivos en ese formato en cualquier tipo de repositorio
@@ -16,5 +16,11 @@ encontrar varios archivos en ese formato en cualquier tipo de repositorio
 ## 2. Prueba img
 
 ![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
-test\test-file.md
-test
+![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
+
+### Referentes de temas para el proyecto
+- [find files by extension, *.html under a folder in nodejs](https://stackoverflow.com/questions/25460574/find-files-by-extension-html-under-a-folder-in-nodejs)
+- [File found with npm](https://github.com/nspragg/filehound)
+- [Axios](https://www.npmjs.com/package/axios#axios-api)
+- [Read file with fs](https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback)
+- [Read file with fs](https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback)
