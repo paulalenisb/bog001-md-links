@@ -45,13 +45,13 @@ describe('Obtener MD Links', () => {
 
 /*---------- test validar / axios de los links Md ----------*/
 
-describe('Validar MD Links', () => {
+// describe('Validar MD Links', () => {
 
-  it('Llamar axios y obtener los links validados', () => {
-    const links = functions.getValidateMDLinks()
-  })
+//   it('Llamar axios y obtener los links validados', () => {
+//     const links = functions.getValidateMDLinks()
+//   })
 
-})
+// })
 
 
 // describe('mdLinks', () => {

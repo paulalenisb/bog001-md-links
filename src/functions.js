@@ -8,7 +8,8 @@ const axios = require("axios");
 const fileFound = require("filehound");
 const { resolve } = require("path");
 const { rejects } = require("assert");
-const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+// const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+const userRoute="test\test-file.md";
 const functions = {};
 
 // const mdLinks = (userPath, options ) => {
@@ -19,8 +20,8 @@ const functions = {};
 /*---------- Path Absoluto ----------*/
 
 //resolves a sequence of paths or path segments into an absolute path
-// const absolutePath = path.resolve(userPath);
-// console.log(absolutePath);
+const absolutePath = path.resolve(userRoute);
+console.log(absolutePath);
 
 /*---------- Extensión del Path ----------*/
 //Returns the extension of the path, from the last occurrence of the .
