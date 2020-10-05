@@ -1,30 +1,33 @@
 // module.exports = () => {
 //   // ...
 // };
-const arrMockLinks = require('./arrMock')
+const mockLinks = require('../test/mockLinks.js')
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
 const fileFound = require("filehound");
 const { resolve } = require("path");
 const { rejects } = require("assert");
-const userPath ="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+// const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+const userRoute= '../test/test-file.md';
+
 const functions = {};
 
 // const mdLinks = (userPath, options ) => {
 
 //   };
 
-/*---------- Path Absoluto ----------*/
 
+/*---------- Path Absoluto ----------*/
 //resolves a sequence of paths or path segments into an absolute path
-const absolutePath = path.resolve(userPath);
-console.log(absolutePath);
+
+const absolutePath = path.resolve(userRoute);
+// console.log(absolutePath);
 
 /*---------- Extensión del Path ----------*/
 //Returns the extension of the path, from the last occurrence of the .
-const fileMd = path.extname(userPath);
-console.log(fileMd);
+// const fileMd = path.extname(userPath);
+// console.log(fileMd);
 
 /*---------- Posible Recursión (File & Dir) ----------*/
 
@@ -41,9 +44,10 @@ console.log(fileMd);
 // foundMdFile(userPath);
 
 
-/*---------- Función para encontrar los links Md ----------*/
+/*---------- Función para encontrar y extraer los links Md ----------*/
 
 const getMdLinks = (userPath) => {
+  userPath = path.resolve(userPath)
   const hashtag = ['#']
   return new Promise((res, rej) => {
     // fs.readFileSync(userPath, 'utf8', (err, data) =>
@@ -51,12 +55,10 @@ const getMdLinks = (userPath) => {
       //Expresión regular para buscar coincidencia con los links md
       // g flag global
       const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
-      //match
-      const matchMdLinks = data.match(regexMdLinks);
       if (err) {
-        console.log(`Error ${err}`);
-        rej(err);
-      } else {
+        rej(new Error ('Verificar ruta, no se encontró el archivo'))
+      } else if (data.match(regexMdLinks)) {
+        const matchMdLinks = data.match(regexMdLinks);
         const arrMdLinks = matchMdLinks.map((link) => {
           const arrSplit = link.split("](");
           const text = arrSplit[0].replace("[", "");
@@ -64,19 +66,20 @@ const getMdLinks = (userPath) => {
           return ({ href, text, userPath });
         });
         const getLinksUrl = arrMdLinks.filter((txt) => !txt.href.startsWith(hashtag));
-        console.log(getLinksUrl);
-        // res(arrMdLinks);
+        res(getLinksUrl);
+      } else {
+        rej(new Error ('No hay links en este archivo'))
       }
     });
   });
 };
 
-getMdLinks(userPath)
-.then((getLinksUrl) => {
-console.log(getLinksUrl);
-})
+// getMdLinks(userRoute)
+// .then((getLinksUrl) => {
+// console.log(getLinksUrl);
+// })
 
-
+/*---------- Función para validar los links Md ----------*/
 const getValidateMDLinks = (getLinksUrl) => {
   return new Promise ((resolve) => {
     const arrValidate = [];
@@ -115,9 +118,9 @@ const getValidateMDLinks = (getLinksUrl) => {
   });
 }
 
-getValidateMDLinks(arrMockLinks)
+// getValidateMDLinks(mockLinks.arrMockLinks)
 
-
+/*---------- Función estadistica de los links Md ----------*/
 const getStatsMDLinks = (arr => {
   let flags = {};
   let uniqueLinks = [];
@@ -135,7 +138,13 @@ const getStatsMDLinks = (arr => {
   Unique: ${uniqueLinks.length}`;
   })
 
-console.log(getStatsMDLinks(arrMockLinks));
+// console.log(getStatsMDLinks(arrMockLinks));
+
+/*---------- Función validar y stats de los links Md ----------*/
+
+
+
+
 
 // module.exports = {
 //   userPath,
@@ -146,9 +155,9 @@ console.log(getStatsMDLinks(arrMockLinks));
 //   getStatsMDLinks,
 // }
 
-functions.userPath = userPath;
-functions.absolutePath = absolutePath;
-functions.fileMd = fileMd;
+// functions.userPath = userPath;
+// functions.absolutePath = absolutePath;
+// functions.fileMd = fileMd;
 functions.getMdLinks = getMdLinks;
 functions.getValidateMDLinks = getValidateMDLinks;
 functions.getStatsMDLinks = getStatsMDLinks;
@@ -176,37 +185,6 @@ module.exports = functions;
 
 // isFile(userPath);
 
-// const validateMDLinks = (url, text, path) =>
-//   new Promise((resolve) =>
-//     axios(url)
-//     .then((res) =>
-//       resolve({
-//         url: url,
-//         text: text,
-//         file: path,
-//         status: res.status,
-//         statusText: res.statusText
-//       })
-//       ).catch(() =>
-//         resolve({
-//           url: url,
-//           text: text,
-//           file: path,
-//           status: 400,
-//           status: 'fail'
-//         }))
-//       );
-//       const validateLinksPromise = [];
-//         const resValidate = (links) => {
-//           links.forEach(({href,text,userPath}) =>
-//             validateLinksPromise.push(validateMDLinks(href,text,userPath))
-//           );
-//           Promise.all(validateLinksPromise)
-//           .then((stats) => {
-//             console.log(stats);
-//           })
-//           .catch(() => rejects(new Error (`no links to validate were found on the ${userPath}`)))
-//         }
 
 // const absolutePath = (userPath) => {
 //   console.log(path.isAbsolute(userPath));
