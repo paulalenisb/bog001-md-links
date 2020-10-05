@@ -1,7 +1,7 @@
 // module.exports = () => {
 //   // ...
 // };
-const arrMockLinks = require('../test/arrMockLinks.js')
+const mockLinks = require('../test/mockLinks.js')
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
@@ -22,7 +22,7 @@ const functions = {};
 //resolves a sequence of paths or path segments into an absolute path
 
 const absolutePath = path.resolve(userRoute);
-console.log(absolutePath);
+// console.log(absolutePath);
 
 /*---------- Extensión del Path ----------*/
 //Returns the extension of the path, from the last occurrence of the .
@@ -74,10 +74,10 @@ const getMdLinks = (userPath) => {
   });
 };
 
-getMdLinks(userRoute)
-.then((getLinksUrl) => {
-console.log(getLinksUrl);
-})
+// getMdLinks(userRoute)
+// .then((getLinksUrl) => {
+// console.log(getLinksUrl);
+// })
 
 /*---------- Función para validar los links Md ----------*/
 const getValidateMDLinks = (getLinksUrl) => {
@@ -118,7 +118,7 @@ const getValidateMDLinks = (getLinksUrl) => {
   });
 }
 
-// getValidateMDLinks(arrMockLinks)
+// getValidateMDLinks(mockLinks.arrMockLinks)
 
 /*---------- Función estadistica de los links Md ----------*/
 const getStatsMDLinks = (arr => {

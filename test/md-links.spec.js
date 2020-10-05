@@ -11,10 +11,18 @@
 // } = require('../src/functions.js')
 
 const functions = require('../src/functions.js')
-const arrMockLinks = require('./arrMockLinks.js')
-const userPath = 'test/test-file.md';
-const noLinks = 'test/test-nolink.md';
-const noFile = 'testt/test-nolink.md';
+const mockLinks = require('./mockLinks.js')
+const axios = require('axios');
+const path = require('path');
+const { fstat } = require('fs');
+const userPath = './test-file.md';
+const noLinks = './test-nolink.md';
+const noFile = './testt-nolink.md';
+// const absolutePath = path.resolve(userPath);
+
+
+
+jest.mock('axios');
 
 /*---------- Test para los links Md ----------*/
 describe('Obtener MD Links', () => {
@@ -25,7 +33,7 @@ describe('Obtener MD Links', () => {
 
   it('debería retornar un array con objetos', () => {
     return functions.getMdLinks(userPath).then((links) => {
-      expect(links).toEqual(arrMockLinks)
+      expect(links).toEqual(mockLinks.arrMockLinks)
     })
   });
 
@@ -45,13 +53,29 @@ describe('Obtener MD Links', () => {
 
 /*---------- test validar / axios de los links Md ----------*/
 
-// describe('Validar MD Links', () => {
+describe('Validar MD Links', () => {
 
-//   it('Llamar axios y obtener los links validados', () => {
-//     const links = functions.getValidateMDLinks()
-//   })
+  it.only('Llamar axios y devolver un status 200 cuando el link es Ok', () => {
+    // const links = functions.getValidateMDLinks()
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({
+      status: 200
+    }));
 
-// })
+    // console.log(functions.getValidateMDLinks(mockLinks.arrMockLinks))
+    return functions.getValidateMDLinks(mockLinks.arrMockLinks)
+    .then((links) => {
+      expect(links.length).toBe(8);
+    })
+
+    // expect(axios.get).toHaveBeenCalledTimes(8);
+
+    // .then((link) => {
+    //   console.log(link);
+      // expect(links.length).toBe(8);
+      // expect(links[0]).toEqual(mockLinks.arrMockValidate)
+    // })
+  })
+})
 
 
 // describe('mdLinks', () => {
