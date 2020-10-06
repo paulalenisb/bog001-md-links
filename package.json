@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --verbose --coverage"
+    "test": "jest --verbose --coverage",
+    "eslint": "eslint --ext .js src/ test/",
+    "pretest": "npm run eslint"
+
   },
   "repository": {
     "type": "git",

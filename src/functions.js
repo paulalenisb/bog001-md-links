@@ -12,16 +12,20 @@ const { rejects } = require("assert");
 const userRoute= '../test/test-file.md';
 
 const functions = {};
+let arrPathFilesMd = []
 
-// const mdLinks = (userPath, options ) => {
+/*---------- Funciones dir, file & ext ----------*/
+const getDir = (absolutePath) => fs.statSync(absolutePath).isDirectory();
+const getFile = (absolutePath) => fs.statSync(absolutePath).isFile();
+const getFileExt = (absolutePath) => path.extname(absolutePath) === '.md';
 
-//   };
-
+const getMdFile = (dir) => {
+  const file = fs.readdirSync
+}
 
 /*---------- Path Absoluto ----------*/
 //resolves a sequence of paths or path segments into an absolute path
-
-const absolutePath = path.resolve(userRoute);
+// const absolutePath = path.resolve(userPath);
 // console.log(absolutePath);
 
 /*---------- Extensión del Path ----------*/
