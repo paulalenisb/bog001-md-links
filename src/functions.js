@@ -1,28 +1,27 @@
-// module.exports = () => {
-//   // ...
-// };
+const functions = {};
 const mockLinks = require('../test/mockLinks.js')
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
-const fileFound = require("filehound");
+// const fileFound = require("filehound");
 const { resolve } = require("path");
 const { rejects } = require("assert");
-// const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
-const userRoute= '../test/test-file.md';
+const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+// const userRoute= '../test/test-file.md';
 
-const functions = {};
-
-// const mdLinks = (userPath, options ) => {
-
-//   };
-
+let arrPathFilesMd = []
 
 /*---------- Path Absoluto ----------*/
-//resolves a sequence of paths or path segments into an absolute path
+// resolves a sequence of paths or path segments into an absolute path
+const getAbsolutePath = (userPath) => path.resolve(userPath);
+console.log(getAbsolutePath(userRoute));
 
-const absolutePath = path.resolve(userRoute);
-// console.log(absolutePath);
+/*---------- Funciones dir, file & ext ----------*/
+const dir = (userPath) => fs.statSync(userPath).isDirectory();
+
+const getFile = (userPath) => fs.statSync(userPath).isFile();
+const getFileExt = (userPath) => path.extname(userPath) === '.md';
+
 
 /*---------- Extensión del Path ----------*/
 //Returns the extension of the path, from the last occurrence of the .

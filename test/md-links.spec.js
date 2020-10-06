@@ -1,28 +1,61 @@
-// debe contener los tests unitarios para la función mdLinks().
-// Tu inplementación debe pasar estos tets.
-
-// const mdLinks = require('../');
-// const {userPath,
-//   absolutePath,
-//   fileMd,
-//   getMdLinks,
-//   getValidateMDLinks,
-//   getStatsMDLinks
-// } = require('../src/functions.js')
-
 const functions = require('../src/functions.js')
 const mockLinks = require('./mockLinks.js')
 const axios = require('axios');
-const path = require('path');
-const { fstat } = require('fs');
+const MockAdapter = require('axios-mock-adapter');
 const userPath = './test-file.md';
 const noLinks = './test-nolink.md';
 const noFile = './testt-nolink.md';
-// const absolutePath = path.resolve(userPath);
+const mockAxios = new MockAdapter(axios);
+const axiosSpy = jest.spyOn(axios, 'get');
+const successTest = jest.fn();
+// jest.mock('axios');
+
+/*---------- test validar / axios de los links Md ----------*/
+
+describe('Validar MD Links', () => {
+
+  it.only('validate link with axios', async (done) => {
+
+    mockAxios.onAny().reply(200, {status: 200});
+
+    // expect(functions.getValidateMDLinks(mockLinks.arrMockLinks)).resolves.toEqual({status: 200});
+
+    // done();
+    // console.log(functions.getValidateMDLinks({ successTest }))
+
+    return functions.getValidateMDLinks(mockLinks.arrMockLinks)
+    .then((result) => {
+      console.log(result);
+      expect(result).toEqual({status: 200})
+      done()
+      // expect(axiosSpy).toHaveBeenCalled();  // Success!
+      // expect(successTest.mockAxios.calls[0][0]).toBe('success');  // Success!
+    })
+  })
+
+    // it.only('Llamar axios y devolver un status 200 cuando el link es Ok', () => {
+  //   // const links = functions.getValidateMDLinks()
+  //   jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({
+  //     status: 200
+  //   }));
+
+    // console.log(functions.getValidateMDLinks(mockLinks.arrMockLinks))
+    // return functions.getValidateMDLinks(mockLinks.arrMockLinks)
+    // .then((links) => {
+    //   expect(links.length).toBe(8);
+    // })
+
+    // expect(axios.get).toHaveBeenCalledTimes(8);
+
+    // .then((link) => {
+    //   console.log(link);
+      // expect(links.length).toBe(8);
+      // expect(links[0]).toEqual(mockLinks.arrMockValidate)
+    // })
+  // })
+})
 
 
-
-jest.mock('axios');
 
 /*---------- Test para los links Md ----------*/
 describe('Obtener MD Links', () => {
@@ -51,37 +84,6 @@ describe('Obtener MD Links', () => {
 
   });
 
-/*---------- test validar / axios de los links Md ----------*/
-
-describe('Validar MD Links', () => {
-
-  it.only('Llamar axios y devolver un status 200 cuando el link es Ok', () => {
-    // const links = functions.getValidateMDLinks()
-    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({
-      status: 200
-    }));
-
-    // console.log(functions.getValidateMDLinks(mockLinks.arrMockLinks))
-    return functions.getValidateMDLinks(mockLinks.arrMockLinks)
-    .then((links) => {
-      expect(links.length).toBe(8);
-    })
-
-    // expect(axios.get).toHaveBeenCalledTimes(8);
-
-    // .then((link) => {
-    //   console.log(link);
-      // expect(links.length).toBe(8);
-      // expect(links[0]).toEqual(mockLinks.arrMockValidate)
-    // })
-  })
-})
+  // it.only('validate link with axios',  async (done) => {
 
 
-// describe('mdLinks', () => {
-
-//   it('should...', () => {
-//     console.log('FIX ME!');
-//   });
-
-// });
