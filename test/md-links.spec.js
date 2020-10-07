@@ -1,36 +1,51 @@
 const functions = require('../src/functions.js')
 const mockLinks = require('./mockLinks.js')
 const axios = require('axios');
-const MockAdapter = require('axios-mock-adapter');
+// const MockAdapter = require('axios-mock-adapter');
 const userPath = './test-file.md';
 const noLinks = './test-nolink.md';
 const noFile = './testt-nolink.md';
-const mockAxios = new MockAdapter(axios);
-const axiosSpy = jest.spyOn(axios, 'get');
-const successTest = jest.fn();
-// jest.mock('axios');
+// const mockAxios = new MockAdapter(axios);
+// const axiosSpy = jest.spyOn(axios, 'get');
+// const successTest = jest.fn();
+
+jest.mock('axios');
 
 /*---------- test validar / axios de los links Md ----------*/
 
 describe('Validar MD Links', () => {
 
-  it.only('validate link with axios', async (done) => {
+  it.only('validate link with axios', () => {
+    axios.__setResponses([
+      { status: 200 },
+      { status: 404 },
+      new Error('Blah!'),
+    ]);
 
-    mockAxios.onAny().reply(200, {status: 200});
+    return functions.getValidateMDLinks([
+      { href: 'http://omg.ftw/', text: 'OMG', userPath: '/oh/my/god.md' },
+      { href: 'http://example.com/', text: 'OMG', userPath: '/oh/my/god.md' },
+      { href: 'http://example.net/', text: 'OMG', userPath: '/oh/my/god.md' }
+    ])
+      .then((results) => {
+        console.log(results);
+      });
+
+    // mockAxios.onAny().reply(200, {status: 200});
 
     // expect(functions.getValidateMDLinks(mockLinks.arrMockLinks)).resolves.toEqual({status: 200});
 
     // done();
     // console.log(functions.getValidateMDLinks({ successTest }))
 
-    return functions.getValidateMDLinks(mockLinks.arrMockLinks)
-    .then((result) => {
-      console.log(result);
-      expect(result).toEqual({status: 200})
-      done()
-      // expect(axiosSpy).toHaveBeenCalled();  // Success!
-      // expect(successTest.mockAxios.calls[0][0]).toBe('success');  // Success!
-    })
+    // return functions.getValidateMDLinks(mockLinks.arrMockLinks)
+    // .then((result) => {
+    //   console.log(result);
+    //   expect(result).toEqual({status: 200})
+    //   done()
+    //   // expect(axiosSpy).toHaveBeenCalled();  // Success!
+    //   // expect(successTest.mockAxios.calls[0][0]).toBe('success');  // Success!
+    // })
   })
 
     // it.only('Llamar axios y devolver un status 200 cuando el link es Ok', () => {
