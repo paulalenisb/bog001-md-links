@@ -79,45 +79,78 @@ const getMdLinks = (userPath) => {
 // })
 
 /*---------- Función para validar los links Md ----------*/
-const getValidateMDLinks = (getLinksUrl) => {
-  return new Promise ((resolve) => {
-    const arrValidate = [];
-    getLinksUrl.map((link) => {
-      //Usamos push para agregar los valores al arr
-      arrValidate.push(new Promise(resolve => {
-        if (!/^https?:\/\//i.test(link.href)) {
-          link.href = 'http://' + link.href;
-          }
-        //El metodo get
-        axios.get(link.href)
-        .then(resultado => {
-          link.status = resultado.status;
-          link.ok = true;
-          resolve();
-        }).catch (err => {
-          //Error desconocido
-          let status = 500;
-          if (err.resultado) {
-            //Error predeterminado
-            status = err.resultado.status;
-          }
-          if(err.request) {
-            status = 503;
-          }
-          link.status = status;
-          link.ok = false;
-          resolve()
-        });
-      }));
-    });
-    Promise.all(arrValidate)
-    .then(() => {
-      console.log(getLinksUrl);
-    })
-  });
-}
+// const getValidateMDLinks = (getLinksUrl) => {
+//   return new Promise ((resolve) => {
+//     const arrValidate = getLinksUrl.map((link) => {
 
-// getValidateMDLinks(mockLinks.arrMockLinks)
+//       return new Promise(resolve => {
+//         if (!/^https?:\/\//i.test(link.href)) {
+//           link.href = 'http://' + link.href;
+//           }
+//         //El metodo get
+//         axios.get(link.href)
+//         .then(resultado => {
+//           link.status = resultado.status;
+//           link.ok = true;
+//           resolve();
+//         }).catch (err => {
+//           //Error desconocido
+//           let status = 500;
+//           if (err.resultado) {
+//             //Error predeterminado
+//             status = err.resultado.status;
+//           }
+//           if(err.request) {
+//             status = 503;
+//           }
+//           link.status = status;
+//           link.ok = false;
+//           resolve()
+//         });
+//       });
+//     });
+//     Promise.all(arrValidate)
+//     .then(() => {
+//       console.log(getLinksUrl);
+//     })
+//   });
+// }
+
+const getValidateMDLinks = (getLinksUrl) => {
+  const arrValidate = getLinksUrl.map((link) => {
+    if (!/^https?:\/\//i.test(link.href)) {
+      link.href = 'http://' + link.href;
+    }
+
+    //El metodo get
+    return axios.get(link.href)
+      .then((resultado) => {
+        // link.status = resultado.status;
+        // link.ok = true;
+        return { ...link, status: resultado.status, ok: true };
+      })
+      .catch ((err) => {
+        //Error desconocido
+        let status = 500;
+        if (err.resultado) {
+          //Error predeterminado
+          status = err.resultado.status;
+        }
+        if(err.request) {
+          status = 503;
+        }
+        // link.status = status;
+        // link.ok = false;
+        return { ...link, status, ok: false };
+      });
+  });
+
+  return Promise.all(arrValidate);
+};
+
+getValidateMDLinks(mockLinks.arrMockLinks)
+  .then(console.log)
+  .catch(console.error);
 
 /*---------- Función estadistica de los links Md ----------*/
 const getStatsMDLinks = (arr => {
