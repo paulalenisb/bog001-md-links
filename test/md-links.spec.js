@@ -1,28 +1,9 @@
-// debe contener los tests unitarios para la función mdLinks().
-// Tu inplementación debe pasar estos tets.
-
-// const mdLinks = require('../');
-// const {userPath,
-//   absolutePath,
-//   fileMd,
-//   getMdLinks,
-//   getValidateMDLinks,
-//   getStatsMDLinks
-// } = require('../src/functions.js')
-
 const functions = require('../src/functions.js')
 const mockLinks = require('./mockLinks.js')
 const axios = require('axios');
-const path = require('path');
-const { fstat } = require('fs');
-const userPath = './test-file.md';
+const userPath = 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md';
 const noLinks = './test-nolink.md';
 const noFile = './testt-nolink.md';
-// const absolutePath = path.resolve(userPath);
-
-
-
-jest.mock('axios');
 
 /*---------- Test para los links Md ----------*/
 describe('Obtener MD Links', () => {
@@ -48,40 +29,27 @@ describe('Obtener MD Links', () => {
       expect(e.message).toBe('Verificar ruta, no se encontró el archivo')
     });
   });
-
   });
 
-/*---------- test validar / axios de los links Md ----------*/
+  /*---------- test validar / axios de los links Md ----------*/
+  jest.mock('axios');
+  describe('Validar MD Links', () => {
 
-describe('Validar MD Links', () => {
+  it('validate link with axios', () => {
+    axios.__setResponses([
+      { status: 200 },
+      { status: 404 },
+      new Error('Blah!'),
+    ]);
 
-  it.only('Llamar axios y devolver un status 200 cuando el link es Ok', () => {
-    // const links = functions.getValidateMDLinks()
-    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve({
-      status: 200
-    }));
-
-    // console.log(functions.getValidateMDLinks(mockLinks.arrMockLinks))
-    return functions.getValidateMDLinks(mockLinks.arrMockLinks)
-    .then((links) => {
-      expect(links.length).toBe(8);
-    })
-
-    // expect(axios.get).toHaveBeenCalledTimes(8);
-
-    // .then((link) => {
-    //   console.log(link);
-      // expect(links.length).toBe(8);
-      // expect(links[0]).toEqual(mockLinks.arrMockValidate)
-    // })
+    return functions.getValidateMDLinks([
+      { href: 'http://omg.ftw/', text: 'OMG', userPath: '/oh/my/god.md' },
+      { href: 'http://example.com/', text: 'OMG', userPath: '/oh/my/god.md' },
+      { href: 'http://example.net/', text: 'OMG', userPath: '/oh/my/god.md' }
+    ])
+      .then((results) => {
+        // console.log(results);
+      });
   })
 })
 
-
-// describe('mdLinks', () => {
-
-//   it('should...', () => {
-//     console.log('FIX ME!');
-//   });
-
-// });
