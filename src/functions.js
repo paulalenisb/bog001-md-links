@@ -23,26 +23,6 @@ const getFile = (userPath) => fs.statSync(userPath).isFile();
 const getFileExt = (userPath) => path.extname(userPath) === '.md';
 
 
-/*---------- Extensión del Path ----------*/
-//Returns the extension of the path, from the last occurrence of the .
-// const fileMd = path.extname(userPath);
-// console.log(fileMd);
-
-/*---------- Posible Recursión (File & Dir) ----------*/
-
-// const foundMdFile = () => {
-//   fileFound
-//     .create()
-//     .paths(userPath)
-//     .ext("md")
-//     .find()
-//     .then((filesMd) => {
-//       filesMd.forEach((file) => console.log("Found files", file));
-//     });
-// };
-// foundMdFile(userPath);
-
-
 /*---------- Función para encontrar y extraer los links Md ----------*/
 
 const getMdLinks = (userPath) => {
@@ -77,44 +57,6 @@ const getMdLinks = (userPath) => {
 // .then((getLinksUrl) => {
 // console.log(getLinksUrl);
 // })
-
-/*---------- Función para validar los links Md ----------*/
-// const getValidateMDLinks = (getLinksUrl) => {
-//   return new Promise ((resolve) => {
-//     const arrValidate = getLinksUrl.map((link) => {
-
-//       return new Promise(resolve => {
-//         if (!/^https?:\/\//i.test(link.href)) {
-//           link.href = 'http://' + link.href;
-//           }
-//         //El metodo get
-//         axios.get(link.href)
-//         .then(resultado => {
-//           link.status = resultado.status;
-//           link.ok = true;
-//           resolve();
-//         }).catch (err => {
-//           //Error desconocido
-//           let status = 500;
-//           if (err.resultado) {
-//             //Error predeterminado
-//             status = err.resultado.status;
-//           }
-//           if(err.request) {
-//             status = 503;
-//           }
-//           link.status = status;
-//           link.ok = false;
-//           resolve()
-//         });
-//       });
-//     });
-//     Promise.all(arrValidate)
-//     .then(() => {
-//       console.log(getLinksUrl);
-//     })
-//   });
-// }
 
 const getValidateMDLinks = (getLinksUrl) => {
   const arrValidate = getLinksUrl.map((link) => {
