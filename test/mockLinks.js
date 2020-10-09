@@ -18,7 +18,7 @@ const arrMockLinks = [
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   },
   {
-    href: 'https://stackoverflow.com/questions/25460574/find-files-by-extension-html-under-a-folder-in-nodejs',
+    href: 'https://stackoverflow.com/questions/25460574/find-files-by-extension-html-under-a-fder-in-nodejs',
     text: 'find files by extension, *.html under a folder in nodejs',
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   },
@@ -28,7 +28,7 @@ const arrMockLinks = [
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   },
   {
-    href: 'https://www.npmjs.com/package/axios#axios-api',
+    href: 'https://www.npmjs.com/pkage/axios#axios-api',
     text: 'Axios',
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   },
@@ -38,7 +38,7 @@ const arrMockLinks = [
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   },
   {
-    href: 'https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback',
+    href: 'https://nodejs.org/api/fhtml#fs_fs_readfile_path_options_callback',
     text: 'Read file with fs',
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   }
