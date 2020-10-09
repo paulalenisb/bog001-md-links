@@ -1,7 +1,6 @@
 const mocksLinks = {};
 
 const arrMockLinks = [
-
   {
     href: 'https://es.wikipedia.org/wiki/Markdow',
     text: 'Markdown',
@@ -43,6 +42,7 @@ const arrMockLinks = [
     userPath: 'C:\\Users\\Lenovo\\Documents\\PL\\2020\\Laboratoria\\Bootcamp\\bog001-md-links\\test\\test-file.md'
   }
 ];
+
 
 const arrMockValidate = [
   {

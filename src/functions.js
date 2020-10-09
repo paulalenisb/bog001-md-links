@@ -33,6 +33,7 @@ const getMdFileExt = (userPath) => path.extname(userPath) === '.md';
 const readDir = (userPath) => fs.readdirSync(userPath);
 
 const getMdFile = (userPath) => {
+  
   let arrPathFilesMd = []
   const userPathAbsolute = getAbsolutePath(userPath)
   if(checkFile(userPathAbsolute)) {
@@ -51,18 +52,18 @@ const getMdFile = (userPath) => {
   return arrPathFilesMd;
 }
 
-console.log(getMdFile('../test'));
+// console.log(getMdFile('../test'));
 
 /*---------- Función para encontrar y extraer los links Md ----------*/
 
 const getMdLinks = (userPath) => {
-  userPath = path.resolve(userPath);
-  const hashtag = '#';
   return new Promise((res, rej) => {
     fs.readFile(userPath, "utf8", (err, data) => {
       //Expresión regular para buscar coincidencia con los links md
       // g flag global
       const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+      const hashtag = '#';
+      userPath = path.resolve(userPath);
       if (err) {
         rej(new Error ('Verificar ruta, no se encontró el archivo'))
       } else if (data.match(regexMdLinks)) {
@@ -76,8 +77,7 @@ const getMdLinks = (userPath) => {
         const getLinksUrl = arrMdLinks.filter((txt) => !txt.href.startsWith(hashtag));
         res(getLinksUrl);
       } else {
-        res([])
-        //rej(new Error ('No hay links en este archivo'))
+        res({ href: 'No se encontraron links', text: 'No se encontraron links', userPath })
       }
     });
   });
@@ -97,8 +97,6 @@ const getValidateMDLinks = (getLinksUrl) => {
     //El metodo get
     return axios.get(link.href)
       .then((resultado) => {
-        // link.status = resultado.status;
-        // link.ok = true;
         return { ...link, status: resultado.status, ok: true };
       })
       .catch ((err) => {
@@ -111,8 +109,6 @@ const getValidateMDLinks = (getLinksUrl) => {
         if(err.request) {
           status = 503;
         }
-        // link.status = status;
-        // link.ok = false;
         return { ...link, status, ok: false };
       });
   });
@@ -120,34 +116,16 @@ const getValidateMDLinks = (getLinksUrl) => {
   return Promise.all(arrValidate);
 };
 
+
 getValidateMDLinks(mockLinks.arrMockLinks)
   .then(console.log)
   .catch(console.error);
 
-/*---------- Función estadistica de los links Md ----------*/
-const getStatsMDLinks = (arr => {
-  let flags = {};
-  let uniqueLinks = [];
-  const totalLinks = arr.length
-  for(let i=0; i < totalLinks; i++) {
-      if(flags[arr[i].href])
-      continue;
-      flags[arr[i].href] = true;
-      uniqueLinks.push(arr[i].href);
-  }
-  return `
-  Total: ${totalLinks}
-  Unique: ${uniqueLinks.length}`;
-  })
-
-// console.log(getStatsMDLinks(arrMockLinks));
 
 /*---------- Función validar y stats de los links Md ----------*/
 
-functions.isValidPath = isValidPath;
 functions.getMdFile = getMdFile;
 functions.getMdLinks = getMdLinks;
 functions.getValidateMDLinks = getValidateMDLinks;
-functions.getStatsMDLinks = getStatsMDLinks;
 
 module.exports = functions;
