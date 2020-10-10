@@ -11,29 +11,26 @@ const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-m
 /*---------- Funciones dir, file & ext ----------*/
 
 //Retorna un valor buleano
-const isValidPath = (userPath) => fs.existsSync(userPath);
+//
 // console.log(isValidPath(userRoute))
-
-//Convertir la ruta en absoluta
-const getAbsolutePath = (userPath) => path.resolve(userPath);
-// console.log(getAbsolutePath('../test'));
-
-//Verificar si es file - valor booleano
-const checkFile = (userPath) => fs.statSync(userPath).isFile();
-// console.log(checkFile(userRoute));
 
 //Verificar si es un dir - valor booleano
 // const checkDir = (userPath) => fs.statSync(userPath).isDirectory();
 // console.log(checkDir(userRoute))
 
-//Extensión del file
-const getMdFileExt = (userPath) => path.extname(userPath) === '.md';
-
-// Leer el directorio
-const readDir = (userPath) => fs.readdirSync(userPath);
-
 const getMdFile = (userPath) => {
-  
+  //Convertir la ruta en absoluta
+  const getAbsolutePath = (userPath) => path.resolve(userPath);
+
+  //Verificar si es file - valor booleano
+  const checkFile = (userPath) => fs.statSync(userPath).isFile();
+
+  //Extensión del file
+  const getMdFileExt = (userPath) => path.extname(userPath) === '.md';
+
+  // Leer el directorio
+  const readDir = (userPath) => fs.readdirSync(userPath);
+
   let arrPathFilesMd = []
   const userPathAbsolute = getAbsolutePath(userPath)
   if(checkFile(userPathAbsolute)) {
@@ -53,8 +50,43 @@ const getMdFile = (userPath) => {
 }
 
 // console.log(getMdFile('../test'));
+//¿Sí tengo varios archivos md, qué pasa?
 
 /*---------- Función para encontrar y extraer los links Md ----------*/
+// const getMdLinks = (userPath) => {
+//   let getLinksUrl = [];
+//   let finaleArr = [];
+//   return new Promise((res, rej) => {
+//     // console.log('Mostrando función getMdFile' + getMdFile(userPath));
+//     finaleArr = getMdFile(userPath).map((file) => {
+//       fs.readFile(file, "utf8", (err, data) => {
+//         //Expresión regular para buscar coincidencia con los links md
+//         // g flag global
+//         const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+//         const hashtag = '#';
+//         // userPath = path.resolve(userPath);
+//         if (err) {
+//           rej(new Error ('Verificar ruta, no se encontró el archivo'))
+//         } else if (data.match(regexMdLinks)) {
+//           const matchMdLinks = data.match(regexMdLinks);
+//           const arrMdLinks = matchMdLinks.map((link) => {
+//             const arrSplit = link.split("](");
+//             const text = arrSplit[0].replace("[", "");
+//             const href = arrSplit[1].replace(")", "");
+//             return ({ href, text, file });
+//           });
+//           getLinksUrl = arrMdLinks.filter((txt) => !txt.href.startsWith(hashtag));
+//           res(getLinksUrl)
+//         } else {
+//           res({ href: 'No se encontraron links', text: 'No se encontraron links', userPath })
+//         }
+//       });
+//     });
+//     // res(Promise.all(finaleArr))
+//     // .then()
+//   });
+//   // return finaleArr
+// };
 
 const getMdLinks = (userPath) => {
   return new Promise((res, rej) => {
@@ -83,10 +115,19 @@ const getMdLinks = (userPath) => {
   });
 };
 
-// getMdLinks(userRoute)
+
+// getMdLinks('../test')
 // .then((getLinksUrl) => {
 // console.log(getLinksUrl);
 // })
+
+const mdLinksPromise = [];
+
+const getArrMdLinks = (newArrMd) => {
+  newArrMd.forEach((file) => mdLinksPromise.push(getMdLinks(file)));
+  return mdLinksPromise
+}
+
 
 const getValidateMDLinks = (getLinksUrl) => {
   const arrValidate = getLinksUrl.map((link) => {
@@ -117,15 +158,13 @@ const getValidateMDLinks = (getLinksUrl) => {
 };
 
 
-getValidateMDLinks(mockLinks.arrMockLinks)
-  .then(console.log)
-  .catch(console.error);
+// getValidateMDLinks(mockLinks.arrMockLinks)
+//   .then(console.log)
+//   .catch(console.error);
 
-
-/*---------- Función validar y stats de los links Md ----------*/
-
+functions.getArrMdLinks = getArrMdLinks;
 functions.getMdFile = getMdFile;
-functions.getMdLinks = getMdLinks;
+// functions.getMdLinks = getMdLinks;
 functions.getValidateMDLinks = getValidateMDLinks;
 
 module.exports = functions;
