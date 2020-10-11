@@ -49,6 +49,8 @@ const mdLinks = (userPath, { validate }) => {
   }
 };
 
-  mdLinks('../test', {validate: false})
-  .then((res) => console.log(res))
-  .catch((error) => console.error(error));
+  // mdLinks('../test', {validate: false})
+  // .then((res) => console.log(res))
+  // .catch((error) => console.error(error));
+
+  module.exports = mdLinks;
