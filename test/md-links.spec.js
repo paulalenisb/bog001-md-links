@@ -4,6 +4,7 @@ const axios = require('axios');
 const userPath = 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md';
 const noLinks = './test-nolink.md';
 const noFile = './testt-nolink.md';
+jest.mock('axios');
 
 /*---------- Test para los links Md ----------*/
 describe('Obtener MD Links', () => {
@@ -31,9 +32,8 @@ describe('Obtener MD Links', () => {
   });
   });
 
-  /*---------- test validar / axios de los links Md ----------*/
-  jest.mock('axios');
-  describe('Validar MD Links', () => {
+/*---------- Test validar / axios de los links Md ----------*/
+describe('Validar MD Links', () => {
 
   it('validate link with axios', () => {
     axios.__setResponses([
@@ -53,3 +53,9 @@ describe('Obtener MD Links', () => {
   })
 })
 
+/*---------- Test función validate ----------*/
+describe('Comprobar función MD Links', () => {
+  it ('', () => {
+    
+  })
+})
