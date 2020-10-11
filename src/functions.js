@@ -1,62 +1,105 @@
-// module.exports = () => {
-//   // ...
-// };
-const arrMockLinks = require('./arrMock')
+const functions = {};
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
-const fileFound = require("filehound");
+const mockLinks = require('../test/mockLinks.js')
 const { resolve } = require("path");
 const { rejects } = require("assert");
-const userPath ="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
-const functions = {};
+const userRoute="C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md";
+// const userRoute= '../test/test-file.md';
 
-// const mdLinks = (userPath, options ) => {
+/*---------- Funciones dir, file & ext ----------*/
 
-//   };
+//Retorna un valor buleano
+//
+// console.log(isValidPath(userRoute))
 
-/*---------- Path Absoluto ----------*/
+//Verificar si es un dir - valor booleano
+// const checkDir = (userPath) => fs.statSync(userPath).isDirectory();
+// console.log(checkDir(userRoute))
 
-//resolves a sequence of paths or path segments into an absolute path
-const absolutePath = path.resolve(userPath);
-console.log(absolutePath);
+const getMdFile = (userPath) => {
+  //Convertir la ruta en absoluta
+  const getAbsolutePath = (userPath) => path.resolve(userPath);
 
-/*---------- Extensión del Path ----------*/
-//Returns the extension of the path, from the last occurrence of the .
-const fileMd = path.extname(userPath);
-console.log(fileMd);
+  //Verificar si es file - valor booleano
+  const checkFile = (userPath) => fs.statSync(userPath).isFile();
 
-/*---------- Posible Recursión (File & Dir) ----------*/
+  //Extensión del file
+  const getMdFileExt = (userPath) => path.extname(userPath) === '.md';
 
-// const foundMdFile = () => {
-//   fileFound
-//     .create()
-//     .paths(userPath)
-//     .ext("md")
-//     .find()
-//     .then((filesMd) => {
-//       filesMd.forEach((file) => console.log("Found files", file));
+  // Leer el directorio
+  const readDir = (userPath) => fs.readdirSync(userPath);
+
+  let arrPathFilesMd = []
+  const userPathAbsolute = getAbsolutePath(userPath)
+  if(checkFile(userPathAbsolute)) {
+    // Si es archivo
+    if(getMdFileExt(userPathAbsolute)) {
+      arrPathFilesMd.push(userPathAbsolute);
+    }
+  } //Si no, es dir
+  else {
+    readDir(userPathAbsolute).forEach((file) => {
+      const onlyFile = path.join(userPathAbsolute, file);
+      const allFile = getMdFile(onlyFile);
+      arrPathFilesMd = arrPathFilesMd.concat(allFile);
+    });
+  }
+  return arrPathFilesMd;
+}
+
+// console.log(getMdFile('../test'));
+//¿Sí tengo varios archivos md, qué pasa?
+
+/*---------- Función para encontrar y extraer los links Md ----------*/
+// const getMdLinks = (userPath) => {
+//   let getLinksUrl = [];
+//   let finaleArr = [];
+//   return new Promise((res, rej) => {
+//     // console.log('Mostrando función getMdFile' + getMdFile(userPath));
+//     finaleArr = getMdFile(userPath).map((file) => {
+//       fs.readFile(file, "utf8", (err, data) => {
+//         //Expresión regular para buscar coincidencia con los links md
+//         // g flag global
+//         const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+//         const hashtag = '#';
+//         // userPath = path.resolve(userPath);
+//         if (err) {
+//           rej(new Error ('Verificar ruta, no se encontró el archivo'))
+//         } else if (data.match(regexMdLinks)) {
+//           const matchMdLinks = data.match(regexMdLinks);
+//           const arrMdLinks = matchMdLinks.map((link) => {
+//             const arrSplit = link.split("](");
+//             const text = arrSplit[0].replace("[", "");
+//             const href = arrSplit[1].replace(")", "");
+//             return ({ href, text, file });
+//           });
+//           getLinksUrl = arrMdLinks.filter((txt) => !txt.href.startsWith(hashtag));
+//           res(getLinksUrl)
+//         } else {
+//           res({ href: 'No se encontraron links', text: 'No se encontraron links', userPath })
+//         }
+//       });
 //     });
+//     // res(Promise.all(finaleArr))
+//     // .then()
+//   });
+//   // return finaleArr
 // };
-// foundMdFile(userPath);
-
-
-/*---------- Función para encontrar los links Md ----------*/
 
 const getMdLinks = (userPath) => {
-  const hashtag = ['#']
   return new Promise((res, rej) => {
-    // fs.readFileSync(userPath, 'utf8', (err, data) =>
     fs.readFile(userPath, "utf8", (err, data) => {
       //Expresión regular para buscar coincidencia con los links md
       // g flag global
       const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
-      //match
-      const matchMdLinks = data.match(regexMdLinks);
+      const hashtag = '#';
+      userPath = path.resolve(userPath);
       if (err) {
-        console.log(`Error ${err}`);
-        rej(err);
-      } else {
+        rej(new Error ('Verificar ruta, no se encontró el archivo'))
+      } else if (data.match(regexMdLinks)) {
+        const matchMdLinks = data.match(regexMdLinks);
         const arrMdLinks = matchMdLinks.map((link) => {
           const arrSplit = link.split("](");
           const text = arrSplit[0].replace("[", "");
@@ -64,191 +107,64 @@ const getMdLinks = (userPath) => {
           return ({ href, text, userPath });
         });
         const getLinksUrl = arrMdLinks.filter((txt) => !txt.href.startsWith(hashtag));
-        console.log(getLinksUrl);
-        // res(arrMdLinks);
+        res(getLinksUrl);
+      } else {
+        res({ href: 'No se encontraron links', text: 'No se encontraron links', userPath })
       }
     });
   });
 };
 
-getMdLinks(userPath)
-.then((getLinksUrl) => {
-console.log(getLinksUrl);
-})
+
+// getMdLinks('../test')
+// .then((getLinksUrl) => {
+// console.log(getLinksUrl);
+// })
+
+const mdLinksPromise = [];
+
+const getArrMdLinks = (newArrMd) => {
+  newArrMd.forEach((file) => mdLinksPromise.push(getMdLinks(file)));
+  return mdLinksPromise
+}
 
 
 const getValidateMDLinks = (getLinksUrl) => {
-  return new Promise ((resolve) => {
-    const arrValidate = [];
-    getLinksUrl.map((link) => {
-      //Usamos push para agregar los valores al arr
-      arrValidate.push(new Promise(resolve => {
-        if (!/^https?:\/\//i.test(link.href)) {
-          link.href = 'http://' + link.href;
-          }
-        //El metodo get
-        axios.get(link.href)
-        .then(resultado => {
-          link.status = resultado.status;
-          link.ok = true;
-          resolve();
-        }).catch (err => {
-          //Error desconocido
-          let status = 500;
-          if (err.resultado) {
-            //Error predeterminado
-            status = err.resultado.status;
-          }
-          if(err.request) {
-            status = 503;
-          }
-          link.status = status;
-          link.ok = false;
-          resolve()
-        });
-      }));
-    });
-    Promise.all(arrValidate)
-    .then(() => {
-      console.log(getLinksUrl);
-    })
+  const arrValidate = getLinksUrl.map((link) => {
+    if (!/^https?:\/\//i.test(link.href)) {
+      link.href = 'http://' + link.href;
+    }
+
+    //El metodo get
+    return axios.get(link.href)
+      .then((resultado) => {
+        return { ...link, status: resultado.status, ok: true };
+      })
+      .catch ((err) => {
+        //Error desconocido
+        let status = 500;
+        if (err.resultado) {
+          //Error predeterminado
+          status = err.resultado.status;
+        }
+        if(err.request) {
+          status = 503;
+        }
+        return { ...link, status, ok: false };
+      });
   });
-}
 
-getValidateMDLinks(arrMockLinks)
+  return Promise.all(arrValidate);
+};
 
 
-const getStatsMDLinks = (arr => {
-  let flags = {};
-  let uniqueLinks = [];
-  const totalLinks = arr.length
-  for(let i=0; i < totalLinks; i++) {
-      if(flags[arr[i].href])
-      continue;
-      flags[arr[i].href] = true;
-      uniqueLinks.push(arr[i].href);
-      // console.log(array.length);
-      // console.log(output.length);
-  }
-  return `
-  Total: ${totalLinks}
-  Unique: ${uniqueLinks.length}`;
-  })
+// getValidateMDLinks(mockLinks.arrMockLinks)
+//   .then(console.log)
+//   .catch(console.error);
 
-console.log(getStatsMDLinks(arrMockLinks));
-
-// module.exports = {
-//   userPath,
-//   absolutePath,
-//   fileMd,
-//   getMdLinks,
-//   getValidateMDLinks,
-//   getStatsMDLinks,
-// }
-
-functions.userPath = userPath;
-functions.absolutePath = absolutePath;
-functions.fileMd = fileMd;
-functions.getMdLinks = getMdLinks;
+functions.getArrMdLinks = getArrMdLinks;
+functions.getMdFile = getMdFile;
+// functions.getMdLinks = getMdLinks;
 functions.getValidateMDLinks = getValidateMDLinks;
-functions.getStatsMDLinks = getStatsMDLinks;
 
 module.exports = functions;
-
-
-
-// const fileExists = (userPath) => {
-//   try {
-//     fs.statSync(userPath);
-//     return true;
-//   } catch (err) {
-//     if (err.code === "ENOENT") {
-//       return false;
-//     }
-//   }
-// };
-// fileExists(userPath);
-
-// const isFile = (userPath) => {
-//   const isFile = fs.lstatSync(userPath).isFile();
-//   return isFile;
-// };
-
-// isFile(userPath);
-
-// const validateMDLinks = (url, text, path) =>
-//   new Promise((resolve) =>
-//     axios(url)
-//     .then((res) =>
-//       resolve({
-//         url: url,
-//         text: text,
-//         file: path,
-//         status: res.status,
-//         statusText: res.statusText
-//       })
-//       ).catch(() =>
-//         resolve({
-//           url: url,
-//           text: text,
-//           file: path,
-//           status: 400,
-//           status: 'fail'
-//         }))
-//       );
-//       const validateLinksPromise = [];
-//         const resValidate = (links) => {
-//           links.forEach(({href,text,userPath}) =>
-//             validateLinksPromise.push(validateMDLinks(href,text,userPath))
-//           );
-//           Promise.all(validateLinksPromise)
-//           .then((stats) => {
-//             console.log(stats);
-//           })
-//           .catch(() => rejects(new Error (`no links to validate were found on the ${userPath}`)))
-//         }
-
-// const absolutePath = (userPath) => {
-//   console.log(path.isAbsolute(userPath));
-//   //poner la condiciones
-// };
-
-// foundMdFile()
-
-// const readMdFile = () => {
-//   // const pathFile = foundMdFile()
-
-//   fs.readFile('/etc/passwd', 'utf8', callback)
-// };
-
-// readMdFile()
-
-//The path.isAbsolute() method
-// determines if path is an absolute path.
-
-//path.dirname('/foo/bar/baz/asdf/quux');
-// Returns: '/foo/bar/baz/asdf'
-
-// function fromDir(startPath,filter,callback){
-
-//     //console.log('Starting from dir '+startPath+'/');
-
-//     if (!fs.existsSync(startPath)){
-//         console.log("no dir ",startPath);
-//         return;
-//     }
-
-//     let files=fs.readdirSync(startPath);
-//     for(let i=0;i<files.length;i++){
-//         let filename=path.join(startPath,files[i]);
-//         let stat = fs.lstatSync(filename);
-//         if (stat.isDirectory()){
-//             fromDir(filename,filter,callback); //recurse
-//         }
-//         else if (filter.test(filename)) callback(filename);
-//     };
-// };
-
-// fromDir('C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links',/\.md$/,function(filename){
-//     console.log('-- found: ',filename);
-// })
