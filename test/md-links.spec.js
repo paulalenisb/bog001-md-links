@@ -1,61 +1,42 @@
-const functions = require('../src/functions.js')
-const mockLinks = require('./mockLinks.js')
-const axios = require('axios');
-const userPath = 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test/test-file.md';
-const noLinks = './test-nolink.md';
-const noFile = './testt-nolink.md';
-jest.mock('axios');
+// const functions = require('../src/functions.js')
+// const axios = require('axios');
+const mockMdLinks = require('./mockMdLinks.js');
+const mdLinks = require('../src/mdlinks.js');
+// eslint-disable-next-line max-len
+const userPath = 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test2/test-file2.md';
+// const noLinks = './test-nolink.md';
+const wrongPath = './testt-nolink.md';
+const pathRecursion = 'test';
+const mock = {
+  get: jest.fn(),
+};
 
-/*---------- Test para los links Md ----------*/
-describe('Obtener MD Links', () => {
-
-  it('debería ser una función', () => {
-      expect(typeof functions.getMdLinks).toBe('function');
+/* ---------- Test función mdlinks ----------*/
+describe('mdLinks', () => {
+  it('Deberia ser una función', () => {
+    expect(typeof mdLinks).toBe('function');
   });
 
-  it('debería retornar un array con objetos', () => {
-    return functions.getMdLinks(userPath).then((links) => {
-      expect(links).toEqual(mockLinks.arrMockLinks)
-    })
+  it('Deberia leer los archivos md y retornar un array de objetos {href, text, file}', () => mdLinks(userPath, { validate: false }).then((links) => {
+    expect(links).toHaveLength(8);
+    expect(links).toEqual(mockMdLinks.arrMockMdLinks);
+  }));
+
+  it('Deberia leer los archivos .md de un directorio (recursión)', () => mdLinks(pathRecursion, { validate: false }).then((links) => {
+    expect(links).toHaveLength(24);
+  }));
+
+  it('Deberia retornar error, cuando el path es invalido', () => {
+    expect(() => {
+      mdLinks(wrongPath, { validate: false });
+    }).toThrow('Path invalido, verificar path');
   });
 
-  it('Mostrar mensaje de error cuando no hay links en un archivo', () => {
-    return functions.getMdLinks(noLinks).catch(e => {
-      expect(e.message).toBe('No hay links en este archivo')
-    });
-  });
-
-  it('Mostrar mensaje de error cuando no hay un archivo o la ruta no existe', () => {
-    return functions.getMdLinks(noFile).catch(e => {
-      expect(e.message).toBe('Verificar ruta, no se encontró el archivo')
-    });
-  });
-  });
-
-/*---------- Test validar / axios de los links Md ----------*/
-describe('Validar MD Links', () => {
-
-  it('validate link with axios', () => {
-    axios.__setResponses([
-      { status: 200 },
-      { status: 404 },
-      new Error('Blah!'),
-    ]);
-
-    return functions.getValidateMDLinks([
-      { href: 'http://omg.ftw/', text: 'OMG', userPath: '/oh/my/god.md' },
-      { href: 'http://example.com/', text: 'OMG', userPath: '/oh/my/god.md' },
-      { href: 'http://example.net/', text: 'OMG', userPath: '/oh/my/god.md' }
-    ])
-      .then((results) => {
-        // console.log(results);
+  it('Deberia validar, el array de objetos', () => {
+    mock.get.mockImplementationOnce(() => Promise.resolve({ status: 200, ok: true }));
+    mdLinks(userPath, { validate: true })
+      .then((data) => {
+        expect(data).toEqual(mockMdLinks.arrMockValidate);
       });
-  })
-})
-
-/*---------- Test función validate ----------*/
-describe('Comprobar función MD Links', () => {
-  it ('', () => {
-    
-  })
-})
+  });
+});
