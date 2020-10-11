@@ -1,9 +1,9 @@
 const mockLinks = require('../test/mockLinks.js')
 
-const isValidate = true;
+// const isValidate = true;
 
 /*---------- Función validar y stats de los links Md ----------*/
-const getStatsMDLinks = ((arr, isValidate ) => {
+const getStatsMDLinks = ((arr, isValidate) => {
   const totalLinks = arr.length;
 
   //set permite almacenar valores únicos de cualquier tipo
@@ -22,5 +22,7 @@ const getStatsMDLinks = ((arr, isValidate ) => {
 
   })
 
-// console.log(getStatsMDLinks(mockLinks.arrMockValidate,isValidate));
+  module.exports = getStatsMDLinks;
+
+  // console.log(getStatsMDLinks(mockLinks.arrMockValidate,(isValidate = false)));
 
