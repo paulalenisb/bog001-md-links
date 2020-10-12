@@ -1,61 +1,30 @@
-# Markdown Links
+# Objetivos de Aprendizaje - Markdown Links
 
 ## Índice
 
-* [1. Preámbulo](#1-preámbulo)
-* [2. Resumen del proyecto](#2-resumen-del-proyecto)
-* [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)
-* [4. Consideraciones generales](#4-consideraciones-generales)
-* [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)
-* [6. Entregables](#6-entregables)
-* [7. Hacker edition](#7-hacker-edition)
-* [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)
-* [9. Checklist](#9-checklist)
+* [1. Definición del producto](#1-definición-del-producto)
+* [2. Diagrama de flujo](#2-diagrama-de-flujo)
+* [3. Historia de usuarios](#3-historia-de-usuarios)
+* [4. Objetivos de aprendizaje](#4-objetivos-de-aprendizaje)
+* [5. Checklist](#5-checklist)
 
 ***
 
-## 1. Preámbulo
+## 1. Definición del producto
 
-[Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
-ligero muy popular entre developers. Es usado en muchísimas plataformas que
-manejan texto plano (GitHub, foros, blogs, ...), y es muy común
-encontrar varios archivos en ese formato en cualquier tipo de repositorio
-(empezando por el tradicional `README.md`).
+Libreria para extraer links de archivos .md, validar los links y genera estadisticas.
 
-Estos archivos `Markdown` normalmente contienen _links_ (vínculos/ligas) que
-muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de
-la información que se quiere compartir.
+## 2. Diagrama de flujo
+<p align="center"> <img src="OA/MdLinks_PL2020.jpg" width="1000"> </p>
 
-Dentro de una comunidad de código abierto, nos han propuesto crear una
-herramienta usando [Node.js](https://nodejs.org/), que lea y analice archivos
-en formato `Markdown`, para verificar los links que contengan y reportar
-algunas estadísticas.
+## 3. Historias de usuario
+- H1: Yo como developer quiero ingresar la ruta de mi archivo para comprobar que tengo un archivo .md.
+- H2: Yo como developer quiero conocer (href, text y file) de los links que tengo en mis archivo .md.
+- H3: Yo como developer quiero validar mis links para saber si funcionan.
+- H4: Yo como developer quiero conocer las estadísticas de mis links para identificar cuantos tengo.
+- H5: Yo como developer quiero validar y conocer las estadísticas de mis links para obtener estadísticas que necesiten de los resultados de la validación.
 
-![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
-
-## 2. Resumen del proyecto
-
-[Node.js](https://nodejs.org/es/) es un entorno de ejecución para JavaScript
-construido con el [motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
-Esto nos va a permitir ejecutar JavaScript en el entorno del sistema operativo,
-ya sea tu máquina o un servidor, lo cual nos abre las puertas para poder
-interactuar con el sistema en sí, archivos, redes, ...
-
-En este proyecto nos alejamos un poco del navegador para construir un programa
-que se ejecute usando Node.js, donde aprenderemos sobre cómo interactuar con el
-sistema archivos, con el entorno (_proceso_, _env_, _stdin/stdout/stderr_), ...
-
-En este proyecto crearás una herramienta de línea de comando (CLI) así como tu
-propia librería (o biblioteca - library) en JavaScript.
-
-## 3. Objetivos de aprendizaje
-
-Diseñar tu propia librería es una experiencia fundamental para cualquier
-desarrollador porque que te obliga a pensar en la interfaz (API) de tus
-_módulos_ y cómo será usado por otros developers. Debes tener especial
-consideración en peculiaridades del lenguaje, convenciones y buenas prácticas.
-
-A continuación puedes ver los objetivos de aprendizaje de este proyecto:
+## 4. Objetivos de aprendizaje
 
 ### JavaScript
 
@@ -101,143 +70,18 @@ A continuación puedes ver los objetivos de aprendizaje de este proyecto:
 * [x] Colaboración en Github (branches | pull requests | |tags)
 * [x] Organización en Github (projects | issues | labels | milestones)
 
-### HTTP
-
-* [x] Verbos HTTP ([http.get](https://nodejs.org/api/http.html#http_http_get_options_callback))
-
-### Fundamentos de programación
-
-* [x] [Recursión.](https://www.youtube.com/watch?v=lPPgY3HLlhQ)
-
-***
-
-
-### JavaScript API
-
-El módulo debe poder importarse en otros scripts de Node.js y debe ofrecer la
-siguiente interfaz:
-
-#### `mdLinks(path, options)`
-
-##### Argumentos
-
-* `path`: Ruta absoluta o relativa al archivo o directorio. Si la ruta pasada es
-  relativa, debe resolverse como relativa al directorio desde donde se invoca
-  node - _current working directory_).
-* `options`: Un objeto con las siguientes propiedades:
-  - `validate`: Booleano que determina si se desea validar los links
-    encontrados.
-
-##### Valor de retorno
-
-La función debe retornar una promesa (`Promise`) que resuelva a un arreglo
-(`Array`) de objetos (`Object`), donde cada objeto representa un link y contiene
-las siguientes propiedades:
-
-* `href`: URL encontrada.
-* `text`: Texto que aparecía dentro del link (`<a>`).
-* `file`: Ruta del archivo donde se encontró el link.
-
-#### Ejemplo
-
-```js
-const mdLinks = require("md-links");
-
-mdLinks("./some/example.md")
-  .then(links => {
-    // => [{ href, text, file }]
-  })
-  .catch(console.error);
-
-mdLinks("./some/example.md", { validate: true })
-  .then(links => {
-    // => [{ href, text, file, status, ok }]
-  })
-  .catch(console.error);
-
-mdLinks("./some/dir")
-  .then(links => {
-    // => [{ href, text, file }]
-  })
-  .catch(console.error);
-```
-
-### CLI (Command Line Interface - Interfaz de Línea de Comando)
-
-El ejecutable de nuestra aplicación debe poder ejecutarse de la siguiente
-manera a través de la terminal:
-
-`md-links <path-to-file> [options]`
-
-Por ejemplo:
-
-```sh
-$ md-links ./some/example.md
-./some/example.md http://algo.com/2/3/ Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html algún doc
-./some/example.md http://google.com/ Google
-```
-
-El comportamiento por defecto no debe validar si las URLs responden ok o no,
-solo debe identificar el archivo markdown (a partir de la ruta que recibe como
-argumento), analizar el archivo Markdown e imprimir los links que vaya
-encontrando, junto con la ruta del archivo donde aparece y el texto
-que hay dentro del link (truncado a 50 caracteres).
-
-#### Options
-
-##### `--validate`
-
-Si pasamos la opción `--validate`, el módulo debe hacer una petición HTTP para
-averiguar si el link funciona o no. Si el link resulta en una redirección a una
-URL que responde ok, entonces consideraremos el link como ok.
-
-Por ejemplo:
-
-```sh
-$ md-links ./some/example.md --validate
-./some/example.md http://algo.com/2/3/ ok 200 Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html fail 404 algún doc
-./some/example.md http://google.com/ ok 301 Google
-```
-
-Vemos que el _output_ en este caso incluye la palabra `ok` o `fail` después de
-la URL, así como el status de la respuesta recibida a la petición HTTP a dicha
-URL.
-
-##### `--stats`
-
-Si pasamos la opción `--stats` el output (salida) será un texto con estadísticas
-básicas sobre los links.
-
-```sh
-$ md-links ./some/example.md --stats
-Total: 3
-Unique: 3
-```
-
-También podemos combinar `--stats` y `--validate` para obtener estadísticas que
-necesiten de los resultados de la validación.
-
-```sh
-$ md-links ./some/example.md --stats --validate
-Total: 3
-Unique: 3
-Broken: 1
-```
-
 
 ## 9. Checklist
 
 ### General
 
-* [ ] Puede instalarse via `npm install --global <github-user>/md-links`
+* [x] Puede instalarse via `npm install --global <github-user>/md-links`
 
 ### `README.md`
 
-* [ ] Un board con el backlog para la implementación de la librería.
-* [ ] Documentación técnica de la librería.
-* [ ] Guía de uso e instalación de la librería
+* [x] Un board con el backlog para la implementación de la librería.
+* [x] Documentación técnica de la librería.
+* [x] Guía de uso e instalación de la librería
 
 ### API `mdLinks(path, opts)`
 
