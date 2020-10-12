@@ -15,7 +15,7 @@
 Libreria para extraer links de archivos .md, validar los links y genera estadisticas.
 
 ## 2. Diagrama de flujo
-<p align="center"> <img src="OA/MdLinks_PL2020.jpg" width="1000"> </p>
+<p align="center"> <img src="https://github.com/paulalenisb/bog001-md-links/blob/master/OA/MdLinks_PL2020.jpg?raw=true" width="800"> </p>
 
 ## 3. Historias de usuario
 - H1: Yo como developer quiero ingresar la ruta de mi archivo para comprobar que tengo un archivo .md.
@@ -70,12 +70,21 @@ Libreria para extraer links de archivos .md, validar los links y genera estadist
 * [x] Colaboración en Github (branches | pull requests | |tags)
 * [x] Organización en Github (projects | issues | labels | milestones)
 
+### HTTP
+
+* [x] Verbos HTTP ([http.get](https://nodejs.org/api/http.html#http_http_get_options_callback))
+
+### Fundamentos de programación
+
+* [x] [Recursión.](https://www.youtube.com/watch?v=lPPgY3HLlhQ)
+
+
 
 ## 9. Checklist
 
 ### General
 
-* [x] Puede instalarse via `npm install --global <github-user>/md-links`
+* [x] Puede instalarse via `npm install --global paulalenisb/md-links`
 
 ### `README.md`
 
