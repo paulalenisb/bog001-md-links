@@ -24,7 +24,7 @@ npm install @paulalenisb/md-links@0.1.0
 
 La librería ofrece dos opciones o argumentos para generar la validación y estadísticas de los links.
 
-####`npx mdLinks  <path-to-file> [options]`
+#### `npx mdLinks  <path-to-file> [options]`
 
 - ##### `path`: Ruta del archivo or directorio
 - ##### `Options`: Recibe dos propiedades, _validate_ y/o _stast_
@@ -39,7 +39,7 @@ La librería ofrece la siguiente información:
 
 Para extraer los links sin opción se debe pasar el siguiente _comando_ en consola:
 
-####`npx mdLinks  <path-to-file>`
+#### `npx mdLinks  <path-to-file>`
 
 Ejemplo:
 
@@ -55,8 +55,8 @@ $ md-links ./Laboratoria/ejemplo.md
 #### `--validate`
 Pasa la opción validate después de la ruta para verificar los links.
 
-######`mdLinks  <path-to-file> -v`
-######`mdLinks  <path-to-file> --validate`
+###### `mdLinks  <path-to-file> -v`
+###### `mdLinks  <path-to-file> --validate`
 
 Ejemplo:
 
@@ -71,8 +71,8 @@ $ md-links ./Laboratoria/ejemplo.md --validate
 #### `--stats`
 Pasa la opción stats después de la ruta para obtener en total de los links y los unicos.
 
-######`mdLinks  <path-to-file> -s`
-######`mdLinks  <path-to-file> --stats`
+###### `mdLinks  <path-to-file> -s`
+###### `mdLinks  <path-to-file> --stats`
 
 Ejemplo:
 
@@ -86,10 +86,10 @@ Unique: 3
 #### `--stats y --validate`
 Pasa las dos opciones después de la ruta para verificar y obtener el total de los links.
 
-######`mdLinks  <path-to-file> -s -v`
-######`mdLinks  <path-to-file> -v -s`
-######`mdLinks  <path-to-file> --stats --validate`
-######`mdLinks  <path-to-file> --validate --stats`
+###### `mdLinks  <path-to-file> -s -v`
+###### `mdLinks  <path-to-file> -v -s`
+###### `mdLinks  <path-to-file> --stats --validate`
+###### `mdLinks  <path-to-file> --validate --stats`
 
 Ejemplo:
 
