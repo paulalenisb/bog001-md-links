@@ -6,7 +6,7 @@ Estos archivos `Markdown` normalmente contienen links (vínculos/ligas) que much
 
 ## Descripción
 
-Este proyecto es una libreria de Node.js que permite extraer, validar y generar estadísticas de los links de un archivo o directorio en formato .md.
+Este proyecto es una librería de Node.js que permite extraer, validar y generar estadísticas de los links de un archivo o directorio en formato .md.
 
 ## Instalación
 
