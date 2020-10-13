@@ -1,8 +1,12 @@
 # Markdown Links
 
+Markdown es un lenguaje de marcado ligero muy popular entre developers. Es usado en muchísimas plataformas que manejan texto plano (GitHub, foros, blogs, ...), y es muy común encontrar varios archivos en ese formato en cualquier tipo de repositorio (empezando por el tradicional `README.md`).
+
+Estos archivos `Markdown` normalmente contienen links (vínculos/ligas) que muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de la información que se quiere compartir, es por eso que se ha creado una librería.
+
 ## Descripción
 
-Libreria de Node.js que permite extraer, validar y generar estadísticas de los links de un archivo o directorio en formato .md.
+Este proyecto es una libreria de Node.js que permite extraer, validar y generar estadísticas de los links de un archivo o directorio en formato .md.
 
 ## Instalación
 
@@ -46,9 +50,11 @@ Ejemplo:
 ```sh
 $ md-links ./Laboratoria/ejemplo.md
 
-./Laboratoria/ejemplo.md http://ejemplo.com/2/3/ Link Node
-./Laboratoria/ejemplo.md https://prueba.net/algun-doc.html algún doc
-./Laboratoria/ejemplo.md http://google.com/ Google
+{
+  href: 'http://ejemplo.com/2/3/',
+  text: 'Link Node',
+  userPath: 'C:/User/Laboratoria/ejemplo.md'
+}
 ```
 ### Opciones
 
@@ -64,9 +70,13 @@ Ejemplo:
 $ md-links ./Laboratoria/ejemplo.md -v
 $ md-links ./Laboratoria/ejemplo.md --validate
 
-./Laboratoria/ejemplo.md http://ejemplo.com/2/3/ Link Node ok 200
-./Laboratoria/ejemplo.md https://prueba.net/algun-doc.html algún doc fail 404
-./Laboratoria/ejemplo.md http://google.com/ Google ok 200
+{
+  href: 'http://ejemplo.com/2/3/',
+  text: 'Link Node',
+  userPath: 'C:/User/Laboratoria/ejemplo.md',
+  status: 200,
+  ok: true
+}
 ```
 #### `--stats`
 Pasa la opción stats después de la ruta para obtener en total de los links y los unicos.
