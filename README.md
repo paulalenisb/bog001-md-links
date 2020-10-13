@@ -59,7 +59,7 @@ $ md-links ./Laboratoria/ejemplo.md
 ### Opciones
 
 #### `--validate`
-Pasa la opción validate después de la ruta para verificar los links.
+Pasar alguno de los siguientes comandos para obtener la opción validate después de la ruta y verificar los links.
 
 ###### `md-links  <path-to-file> -v`
 ###### `md-links  <path-to-file> --validate`
@@ -79,7 +79,7 @@ $ md-links ./Laboratoria/ejemplo.md --validate
 }
 ```
 #### `--stats`
-Pasa la opción stats después de la ruta para obtener en total de los links y los unicos.
+Pasar alguno de los siguientes comandos para obtener la opción stats después de la ruta y obtener en total de los links y los unicos.
 
 ###### `md-links  <path-to-file> -s`
 ###### `md-links  <path-to-file> --stats`
