@@ -1,8 +1,12 @@
 # Markdown Links
 
+Markdown es un lenguaje de marcado ligero muy popular entre developers. Es usado en muchísimas plataformas que manejan texto plano (GitHub, foros, blogs, ...), y es muy común encontrar varios archivos en ese formato en cualquier tipo de repositorio (empezando por el tradicional `README.md`).
+
+Estos archivos `Markdown` normalmente contienen links (vínculos/ligas) que muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de la información que se quiere compartir, es por eso que se ha creado una librería.
+
 ## Descripción
 
-Libreria de Node.js que permite extraer, validar y generar estadísticas de los links de un archivo o directorio en formato .md.
+Este proyecto es una librería de Node.js que permite extraer, validar y generar estadísticas de los links de un archivo o directorio en formato .md.
 
 ## Instalación
 
@@ -24,7 +28,7 @@ npm install @paulalenisb/md-links@0.1.0
 
 La librería ofrece dos opciones o argumentos para generar la validación y estadísticas de los links.
 
-####`npx mdLinks  <path-to-file> [options]`
+#### `md-links  <path-to-file> [options]`
 
 - ##### `path`: Ruta del archivo or directorio
 - ##### `Options`: Recibe dos propiedades, _validate_ y/o _stast_
@@ -39,24 +43,26 @@ La librería ofrece la siguiente información:
 
 Para extraer los links sin opción se debe pasar el siguiente _comando_ en consola:
 
-####`npx mdLinks  <path-to-file>`
+#### `md-links  <path-to-file>`
 
 Ejemplo:
 
 ```sh
 $ md-links ./Laboratoria/ejemplo.md
 
-./Laboratoria/ejemplo.md http://ejemplo.com/2/3/ Link Node
-./Laboratoria/ejemplo.md https://prueba.net/algun-doc.html algún doc
-./Laboratoria/ejemplo.md http://google.com/ Google
+{
+  href: 'http://ejemplo.com/2/3/',
+  text: 'Link Node',
+  userPath: 'C:/User/Laboratoria/ejemplo.md'
+}
 ```
 ### Opciones
 
 #### `--validate`
-Pasa la opción validate después de la ruta para verificar los links.
+Pasar alguno de los siguientes comandos para obtener la opción validate después de la ruta y verificar los links.
 
-######`mdLinks  <path-to-file> -v`
-######`mdLinks  <path-to-file> --validate`
+###### `md-links  <path-to-file> -v`
+###### `md-links  <path-to-file> --validate`
 
 Ejemplo:
 
@@ -64,15 +70,19 @@ Ejemplo:
 $ md-links ./Laboratoria/ejemplo.md -v
 $ md-links ./Laboratoria/ejemplo.md --validate
 
-./Laboratoria/ejemplo.md http://ejemplo.com/2/3/ Link Node ok 200
-./Laboratoria/ejemplo.md https://prueba.net/algun-doc.html algún doc fail 404
-./Laboratoria/ejemplo.md http://google.com/ Google ok 200
+{
+  href: 'http://ejemplo.com/2/3/',
+  text: 'Link Node',
+  userPath: 'C:/User/Laboratoria/ejemplo.md',
+  status: 200,
+  ok: true
+}
 ```
 #### `--stats`
-Pasa la opción stats después de la ruta para obtener en total de los links y los unicos.
+Pasar alguno de los siguientes comandos para obtener la opción stats después de la ruta y obtener en total de los links y los unicos.
 
-######`mdLinks  <path-to-file> -s`
-######`mdLinks  <path-to-file> --stats`
+###### `md-links  <path-to-file> -s`
+###### `md-links  <path-to-file> --stats`
 
 Ejemplo:
 
@@ -86,16 +96,18 @@ Unique: 3
 #### `--stats y --validate`
 Pasa las dos opciones después de la ruta para verificar y obtener el total de los links.
 
-######`mdLinks  <path-to-file> -s -v`
-######`mdLinks  <path-to-file> -v -s`
-######`mdLinks  <path-to-file> --stats --validate`
-######`mdLinks  <path-to-file> --validate --stats`
+###### `md-links  <path-to-file> -s -v`
+###### `md-links  <path-to-file> -v -s`
+###### `md-links  <path-to-file> --stats --validate`
+###### `md-links  <path-to-file> --validate --stats`
 
 Ejemplo:
 
 ```sh
-$ md-links ./Laboratoria/ejemplo.md -s
-$ md-links ./Laboratoria/ejemplo.md --stats
+$ md-links ./Laboratoria/ejemplo.md -s -v
+$ md-links ./Laboratoria/ejemplo.md -v -s
+$ md-links ./Laboratoria/ejemplo.md --stats --validate
+$ md-links ./Laboratoria/ejemplo.md --validate --stats
 
 Total: 3
 Unique: 3

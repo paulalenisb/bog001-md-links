@@ -12,7 +12,7 @@
 
 ## 1. Definición del producto
 
-Libreria para extraer links de archivos .md, validar los links y genera estadisticas.
+Libreria para extraer links de archivos .md, validarlos y generar estadisticas.
 
 ## 2. Diagrama de flujo
 <p align="center"> <img src="https://github.com/paulalenisb/bog001-md-links/blob/master/OA/MdLinks_PL2020.jpg?raw=true" width="800"> </p>
