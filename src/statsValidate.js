@@ -1,5 +1,6 @@
 /* ---------- Función validar y stats de los links Md ----------*/
 const getStatsMDLinks = ((arr, isValidate) => {
+  // Recorrer el arr
   const totalLinks = arr.length;
 
   // Set permite almacenar valores únicos de cualquier tipo

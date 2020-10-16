@@ -13,7 +13,7 @@ const mdLinks = (userPath, { validate }) => {
     throw Error('Path invalido, verificar path');
   } else { // Si existe el path
     const arrMdFiles = functions.getMdFile(userPath);
-    // Consumo de promesas
+    // Consumo de promesas, función extraer links
     return Promise.all(functions.getArrMdLinks(arrMdFiles))
     // Flat para eliminar arr dentro del otro arr
       .then((arrObjsLinks) => arrObjsLinks.flat())

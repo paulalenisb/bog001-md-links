@@ -1,12 +1,10 @@
-// const functions = require('../src/functions.js')
-// const axios = require('axios');
 const mockMdLinks = require('./mockMdLinks.js');
 const mdLinks = require('../src/mdlinks.js');
 // eslint-disable-next-line max-len
 const userPath = 'C:/Users/Lenovo/Documents/PL/2020/Laboratoria/Bootcamp/bog001-md-links/test2/test-file2.md';
-// const noLinks = './test-nolink.md';
 const wrongPath = './testt-nolink.md';
 const pathRecursion = 'test';
+
 const mock = {
   get: jest.fn(),
 };

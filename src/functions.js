@@ -23,6 +23,7 @@ const getMdFile = (userPath) => {
   let arrPathFilesMd = [];
 
   const userPathAbsolute = getAbsolutePath(userPath);
+
   if (checkFile(userPathAbsolute)) {
     // Si es archivo
     if (getMdFileExt(userPathAbsolute)) {
@@ -38,7 +39,7 @@ const getMdFile = (userPath) => {
   return arrPathFilesMd;
 };
 
-/* ---------- Función para encontrar y extraer los links .md ----------*/
+/* ---------- Función para extraer los links .md ----------*/
 const getMdLinks = (userPath) => new Promise((res, rej) => {
   // Leer los files
   fs.readFile(userPath, 'utf8', (err, data) => {
@@ -47,7 +48,6 @@ const getMdLinks = (userPath) => new Promise((res, rej) => {
     // eslint-disable-next-line no-useless-escape
     const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
     const hashtag = '#';
-    // userPath = path.resolve(userPath);
     if (err) {
       rej(new Error('Verificar ruta, no se encontró el archivo'));
     } else if (data.match(regexMdLinks)) {

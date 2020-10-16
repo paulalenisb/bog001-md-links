@@ -10,7 +10,7 @@ const dirPath = 'test';
 const noFile = './testt-nolink.md';
 jest.mock('axios');
 
-/* ---------- Test para extraer links Md ----------*/
+/* ---------- Test recursión----------*/
 describe('Verificar recursión e identificar .md file', () => {
   it('Deberia ser una función', () => {
     expect(typeof functions.getMdFile).toBe('function');
@@ -34,11 +34,6 @@ describe('Obtener MD Links', () => {
   it('Mostrar mensaje de error cuando no hay links en un archivo', () => functions.getMdLinks(noFile).catch((e) => {
     expect(e.message).toBe('Verificar ruta, no se encontró el archivo');
   }));
-
-  // eslint-disable-next-line max-len
-  // it('Mostrar mensaje de error cuando no hay un archivo o la ruta no existe', () => functions.getMdLinks(noLinks).then((result) => {
-  //   expect(result).toBe([]);
-  // }));
 });
 
 /* ---------- Test validar / axios de los links Md ----------*/
@@ -62,6 +57,3 @@ describe('Validar MD Links', () => {
       });
   });
 });
-
-/* ---------- Test validar / axios de los links Md ----------*/
-// describe('')
